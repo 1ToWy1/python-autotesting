@@ -1,69 +1,47 @@
 import requests
 
 
-# Общий класс для тестов
 class TestChuckCategories:
-
     # URL API
-    url = 'https://api.chucknorris.io'
+    url = "https://api.chucknorris.io"
 
-    # Метод для получения шутки по каждой категории
+    # Тест получения шутки для каждой категории
     def test_get_joke_for_each_category(self):
-
-        # Формируем путь для получения всех категорий
-        path_categories = '/jokes/categories'
-
-        # Формируем полный URL
+        # Получаем список категорий
+        path_categories = "/jokes/categories"
         url_categories = self.url + path_categories
+        print(f"URL запроса: {url_categories}")
 
-        # Выводим URL запроса
-        print(f'URL запроса: {url_categories}')
+        result = requests.get(url_categories, timeout=10)
+        print(f"Статус-код: {result.status_code}")
 
-        # Отправляем GET-запрос для получения всех категорий
-        result = requests.get(url_categories)
+        # Проверяем статус-код
+        assert result.status_code == 200, f"Ожидался статус 200, получен {result.status_code}"
+        print("Статус-код корректен")
 
-        # Выводим статус-код ответа
-        print(f'Статус-код: {result.status_code}')
-
-        # Проверяем, что запрос выполнен успешно
-        assert result.status_code == 200
-        print('Статус-код корректен')
-
-        # Получаем список категорий из JSON-ответа
+        # Получаем категории
         categories = result.json()
+        print(f"Категории: {categories}")
 
-        # Выводим список всех категорий
-        print(f'Категории: {categories}')
-
-        # Перебираем каждую категорию
+        # Проверяем каждую категорию
         for category in categories:
-
-            # Формируем путь для получения случайной шутки
-            path_random_joke = f'/jokes/random?category={category}'
-
-            # Формируем полный URL запроса
+            path_random_joke = f"/jokes/random?category={category}"
             url_random_joke = self.url + path_random_joke
+            print(f"URL шутки: {url_random_joke}")
 
-            # Выводим URL запроса
-            print(f'URL шутки: {url_random_joke}')
+            joke_result = requests.get(url_random_joke, timeout=10)
 
-            # Отправляем GET-запрос
-            joke_result = requests.get(url_random_joke)
+            assert joke_result.status_code == 200, (
+                f"Для категории {category} ожидался статус 200, "
+                f"получен {joke_result.status_code}"
+            )
 
-            # Проверяем статус-код
-            assert joke_result.status_code == 200
-
-            # Получаем ответ в формате JSON
             joke = joke_result.json()
-
-            # Выводим полученную шутку
-            print(f'Категория: {category}')
-            print(f'Шутка: {joke.get("value")}')
-            print('--------------------')
+            print(f"Категория: {category}")
+            print(f"Шутка: {joke.get('value')}")
+            print("--------------------")
 
 
 # Создаем объект класса
 start = TestChuckCategories()
-
-# Запускаем тест
 start.test_get_joke_for_each_category()
