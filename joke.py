@@ -1,19 +1,19 @@
 import requests
 
-№юрл
+# URL запроса
 url = "https://api.chucknorris.io/jokes/lGB67Ua_QtKibYgB2GdMEA"
 print("URL запроса:", url)
-result = requests.get(url)
 
-№статус кода
-print("Статус код: " + str(result.status_code))
+result = requests.get(url, timeout=10)
 
-#проверка
-assert 200 == result.status_code, "Ошибка: Статус код не равен ожидаемому!"
-if result.status_code == 200:
-    print("ОР == ФР")
-else:
-    print("Провал, статус код не верен!")
-result.encoding = 'utf-8'
+# Проверка статус-кода
+print("Статус-код:", result.status_code)
+assert result.status_code == 200, (
+    "Ошибка: статус-код не равен ожидаемому!"
+)
+
+print("ОР == ФР")
+
+result.encoding = "utf-8"
 print("Ответ в формате JSON:")
 print(result.text)
