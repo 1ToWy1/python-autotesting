@@ -1,4 +1,5 @@
-def test_send_first_email():
+# Тест отправки первого письма
+def test_send_first_email(module_scope):
     print("Открываем почтовый сервис...")
     print("Авторизуем пользователя...")
     print("Отправляем первое письмо...")
@@ -6,7 +7,8 @@ def test_send_first_email():
     assert True
 
 
-def test_send_second_email():
+# Тест отправки второго письма
+def test_send_second_email(module_scope):
     print("Открываем почтовый сервис...")
     print("Авторизуем пользователя...")
     print("Отправляем второе письмо...")
