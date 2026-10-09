@@ -1,4 +1,4 @@
-from utils.httpmethods import HTTPMethods
+from utils.http_methods import HttpMethods
 
 base_url = "https://rahulshettyacademy.com"
 key = "?key=qaclick123"
@@ -30,6 +30,6 @@ class GoogleMapsApi:
         post_url = base_url + post_resource + key
         print(post_url)
 
-        result_post = HTTPMethods.post(post_url, json_for_create_new_place)
+        result_post = HttpMethods.post(post_url, json_for_create_new_place)
         print(result_post.text)
         return result_post
