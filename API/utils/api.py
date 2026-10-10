@@ -1,4 +1,5 @@
-from utils.http_methods import HttpMethods
+from requests import Response
+from utils.httpmethods import HttpMethods
 
 base_url = "https://rahulshettyacademy.com"
 key = "?key=qaclick123"
@@ -34,7 +35,7 @@ class GoogleMapsApi:
         print(result_post.text)
         return result_post
 
-   @staticmethod
+    @staticmethod
     def get_new_place(place_id: str) -> Response:
         """Получение информации о локации по place_id."""
 
@@ -43,6 +44,6 @@ class GoogleMapsApi:
         print(get_url)
 
         # Выполняем GET-запрос
-        result_get: Response = HTTP_methods.get(get_url)
+        result_get: Response = HttpMethods.get(get_url)
         print(result_get.text)
         return result_get
