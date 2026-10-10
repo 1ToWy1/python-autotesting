@@ -7,7 +7,6 @@ from utils.checking import Checking
 class TestCreatePlace:
 
     def test_create_new_place(self):
-
         print("Метод POST")
         result_post: Response = GoogleMapsApi.create_new_place()
         check_post = result_post.json()
@@ -18,6 +17,7 @@ class TestCreatePlace:
             result_post,
             ["status", "place_id", "scope", "reference", "id"]
         )
+        Checking.check_json_value(result_post, "status", "OK")
 
         print("Метод GET POST")
         result_get: Response = GoogleMapsApi.get_new_place(place_id)
@@ -29,11 +29,17 @@ class TestCreatePlace:
                 "address", "types", "website", "language"
             ]
         )
+        Checking.check_json_value(
+            result_get, "address", "29, side layout, coh 019"
+        )
 
         print("Метод PUT")
         result_put: Response = GoogleMapsApi.put_new_place(place_id)
         Checking.check_status_code(result_put, 200)
         Checking.check_json_token(result_put, ["msg"])
+        Checking.check_json_value(
+            result_put, "msg", "Address successfully updated"
+        )
 
         print("Метод GET PUT")
         result_get_after_put: Response = GoogleMapsApi.get_new_place(place_id)
@@ -45,19 +51,25 @@ class TestCreatePlace:
                 "address", "types", "website", "language"
             ]
         )
-
-        current_address = result_get_after_put.json().get("address")
-        assert current_address == "100 Lenina street, RU"
-        print("Тест успешно пройден: адрес обновлен корректно.")
+        Checking.check_json_value(
+            result_get_after_put, "address", "100 Lenina street, RU"
+        )
 
         print("Метод DELETE")
         result_delete = GoogleMapsApi.delete_new_place(place_id)
         Checking.check_status_code(result_delete, 200)
         Checking.check_json_token(result_delete, ["status"])
+        Checking.check_json_value(result_delete, "status", "OK")
 
         print("Метод GET DELETE")
         result_get = GoogleMapsApi.get_new_place(place_id)
         Checking.check_status_code(result_get, 404)
         Checking.check_json_token(result_get, ["msg"])
+        Checking.check_json_search_word_in_value(
+            result_get, "msg", "failed"
+        )
 
-        print("Тестирование создания, изменения и удаления новой локации прошло успешно")
+        print(
+            "Тестирование создания, изменения и удаления "
+            "новой локации прошло успешно"
+        )
