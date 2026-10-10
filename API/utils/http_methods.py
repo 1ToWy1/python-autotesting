@@ -9,8 +9,8 @@ class HttpMethods:
     @staticmethod
     def get(url):
         result = requests.get(
-            url, 
-            headers=HttpMethods.headers, 
+            url,
+            headers=HttpMethods.headers,
             cookies=HttpMethods.cookie
         )
         return result
@@ -19,9 +19,9 @@ class HttpMethods:
     @staticmethod
     def post(url, body):
         result = requests.post(
-            url, 
-            json=body, 
-            headers=HttpMethods.headers, 
+            url,
+            json=body,
+            headers=HttpMethods.headers,
             cookies=HttpMethods.cookie
         )
         return result
@@ -30,9 +30,9 @@ class HttpMethods:
     @staticmethod
     def put(url, body):
         result = requests.put(
-            url, 
-            json=body, 
-            headers=HttpMethods.headers, 
+            url,
+            json=body,
+            headers=HttpMethods.headers,
             cookies=HttpMethods.cookie
         )
         return result
@@ -41,9 +41,9 @@ class HttpMethods:
     @staticmethod
     def delete(url, body):
         result = requests.delete(
-            url, 
-            json=body, 
-            headers=HttpMethods.headers, 
+            url,
+            json=body,
+            headers=HttpMethods.headers,
             cookies=HttpMethods.cookie
         )
         return result
