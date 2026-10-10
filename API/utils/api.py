@@ -1,15 +1,15 @@
 from requests import Response
-from utils.httpmethods import HttpMethods
+from utils.http_methods import HttpMethods
 
-base_url = "https://rahulshettyacademy.com"
-key = "?key=qaclick123"
+
+BASE_URL = "https://rahulshettyacademy.com"
+KEY = "?key=qaclick123"
 
 
 class GoogleMapsApi:
-    """Класс, содержащий методы для работы с Google Maps API"""
 
     @staticmethod
-    def create_new_place():
+    def create_new_place() -> Response:
         json_for_create_new_place = {
             "location": {
                 "lat": -38.383494,
@@ -18,7 +18,7 @@ class GoogleMapsApi:
             "accuracy": 50,
             "name": "Frontline house",
             "phone_number": "(+91) 983 893 3937",
-            "address": "29, side layout, cohen 09",
+            "address": "29, side layout, coh 019",
             "types": [
                 "shoe park",
                 "shop"
@@ -27,23 +27,34 @@ class GoogleMapsApi:
             "language": "French-IN"
         }
 
-        post_resource = "/maps/api/place/add/json"
-        post_url = base_url + post_resource + key
+        post_url = BASE_URL + "/maps/api/place/add/json" + KEY
         print(post_url)
-
         result_post = HttpMethods.post(post_url, json_for_create_new_place)
         print(result_post.text)
         return result_post
 
     @staticmethod
     def get_new_place(place_id: str) -> Response:
-        """Получение информации о локации по place_id."""
-
         get_resource = "/maps/api/place/get/json"
-        get_url = base_url + get_resource + key + "&place_id=" + place_id
+        get_url = BASE_URL + get_resource + KEY + "&place_id=" + place_id
         print(get_url)
-
-        # Выполняем GET-запрос
-        result_get: Response = HttpMethods.get(get_url)
+        result_get = HttpMethods.get(get_url)
         print(result_get.text)
         return result_get
+
+    @staticmethod
+    def put_new_place(place_id: str) -> Response:
+        put_resource = "/maps/api/place/update/json"
+        put_url = BASE_URL + put_resource + KEY
+        print(put_url)
+
+        json_for_update_new_location = {
+            "place_id": place_id,
+            "address": "100 Lenina street, RU",
+            "key": "qaclick123"
+        }
+
+        result_put = HttpMethods.put(put_url, json_for_update_new_location)
+        print(result_put.text)
+        return result_put
+        
