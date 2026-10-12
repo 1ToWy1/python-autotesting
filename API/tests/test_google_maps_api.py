@@ -6,7 +6,8 @@ from utils.checking import Checking
 
 class TestCreatePlace:
 
-    def test_create_new_place(self):
+    def test_create_new_place(self) -> None:
+
         print("Метод POST")
         result_post: Response = GoogleMapsApi.create_new_place()
         check_post = result_post.json()
@@ -51,9 +52,11 @@ class TestCreatePlace:
                 "address", "types", "website", "language"
             ]
         )
-        Checking.check_json_value(
-            result_get_after_put, "address", "100 Lenina street, RU"
-        )
+
+        # Проверяем, что адрес в базе данных действительно изменился
+        current_address = result_get_after_put.json().get("address")
+        assert current_address == "100 Lenina street, RU", f"Адрес не обновился! Текущий: {current_address}"
+        print("Тест успешно пройден: адрес обновлен корректно.")
 
         print("Метод DELETE")
         result_delete = GoogleMapsApi.delete_new_place(place_id)
@@ -69,7 +72,4 @@ class TestCreatePlace:
             result_get, "msg", "failed"
         )
 
-        print(
-            "Тестирование создания, изменения и удаления "
-            "новой локации прошло успешно"
-        )
+        print("Тестирование создания, изменения и удаления новой локации прошло успешно")
