@@ -1,17 +1,20 @@
 import requests
 
+from typing import Any
+from requests import Response
+
 from utils.logger import Logger
 
 
 class HttpMethods:
-    headers = {"Content-Type": "application/json"}
-    cookie = ""
+    headers: dict[str, str] = {"Content-Type": "application/json"}
+    cookie: str = ""
 
     # GET-запрос
     @staticmethod
-    def get(url):
+    def get(url: str) -> Response:
         Logger.add_request(url, method="GET")
-        result = requests.get(
+        result: Response = requests.get(
             url,
             headers=HttpMethods.headers,
             cookies=HttpMethods.cookie
@@ -21,9 +24,9 @@ class HttpMethods:
 
     # POST-запрос
     @staticmethod
-    def post(url, body):
+    def post(url: str, body: dict[str, Any]) -> Response:
         Logger.add_request(url, method="POST")
-        result = requests.post(
+        result: Response = requests.post(
             url,
             json=body,
             headers=HttpMethods.headers,
@@ -34,9 +37,9 @@ class HttpMethods:
 
     # PUT-запрос
     @staticmethod
-    def put(url, body):
+    def put(url: str, body: dict[str, Any]) -> Response:
         Logger.add_request(url, method="PUT")
-        result = requests.put(
+        result: Response = requests.put(
             url,
             json=body,
             headers=HttpMethods.headers,
@@ -47,9 +50,9 @@ class HttpMethods:
 
     # DELETE-запрос
     @staticmethod
-    def delete(url, body):
+    def delete(url: str, body: dict[str, Any]) -> Response:
         Logger.add_request(url, method="DELETE")
-        result = requests.delete(
+        result: Response = requests.delete(
             url,
             json=body,
             headers=HttpMethods.headers,
