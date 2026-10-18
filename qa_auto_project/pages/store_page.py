@@ -1,0 +1,32 @@
+import time
+
+from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
+
+
+class StorePage(BasePage):
+    ADD_TO_CART_BTN = (By.XPATH, "//button[span[text()='add']]")
+    PLUS_BTN = (By.XPATH, '//*[@id="app"]/div/div/div[1]/div/div[1]/div[4]/div/button[2]/span')
+    CART_ICON_BTN = (By.XPATH, "//*[@id='app']/div/nav/div/a[2]/button/span[1]")
+    PROCEED_TO_CHECKOUT_BTN = (By.XPATH, "//*[@id='app']/div/div/div[1]/div/div[2]/div[2]/a/button")
+    QUANTITY_INPUT = (By.XPATH, '//*[@id="app"]/div/div/div[1]/div/div[1]/div[4]/div/input')
+
+    def add_product_to_cart(self):
+        self.open()
+        self.click(self.ADD_TO_CART_BTN)
+
+    def go_to_cart_and_checkout(self):
+        cart_btn = self.find_element(self.CART_ICON_BTN)
+        self.driver.execute_script("arguments[0].click();", cart_btn)
+        checkout_btn = self.find_element(self.PROCEED_TO_CHECKOUT_BTN)
+        self.driver.execute_script("arguments[0].click();", checkout_btn)
+
+    def click_plus_button_multiple_times(self, count):
+        plus_btn = self.find_element(self.PLUS_BTN)
+        for _ in range(count):
+            self.driver.execute_script("arguments[0].click();", plus_btn)
+            time.sleep(0.1)
+
+    def go_to_cart(self):
+        cart_btn = self.find_element(self.CART_ICON_BTN)
+        self.driver.execute_script("arguments[0].click();", cart_btn)
